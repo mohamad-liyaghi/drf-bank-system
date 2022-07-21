@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import  User
+from .models import Card
 # Register your models here.
 
 class UserAdmin(admin.ModelAdmin):
@@ -9,5 +10,10 @@ class UserAdmin(admin.ModelAdmin):
             ('Permissions', {'fields': ('is_superuser', 'last_login')}),
         )
 
+class CardAdmin(admin.ModelAdmin):
+    list_display = ("number", "balance", "date_created")
+
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+admin.site.register(Card, CardAdmin)
