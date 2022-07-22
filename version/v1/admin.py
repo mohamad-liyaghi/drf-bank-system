@@ -9,10 +9,11 @@ class UserAdmin(admin.ModelAdmin):
             (None, {'fields': ('email', 'first_name', "last_name", 'password')}),
             ('Permissions', {'fields': ('is_superuser', 'last_login')}),
         )
+        readonly_fields = ("last_login", "is_superuser")
 
 class CardAdmin(admin.ModelAdmin):
     list_display = ("number", "balance", "date_created")
-
+    readonly_fields = ("number", "cvv", "owner", "balance", "password", "token")
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
