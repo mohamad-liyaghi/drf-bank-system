@@ -24,3 +24,9 @@ class CreateCardSerializer(serializers.ModelSerializer):
         model = Card
         fields = ("password",)
         extra_kwargs = {'password': {'write_only': True},}
+
+class ListCardSerializer(serializers.ModelSerializer):
+    '''List of users cards.'''
+    class Meta:
+        model = Card
+        fields = ("number", "token")

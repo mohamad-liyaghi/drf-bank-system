@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 
-from .serializers import RegisterUserSerializer, CreateCardSerializer
+from .serializers import RegisterUserSerializer, CreateCardSerializer, ListCardSerializer
 from v1.models import Card
 
 
@@ -33,4 +33,15 @@ class CardCreateApi(generics.CreateAPIView):
     def perform_create(self, serializer):
             serializer =  serializer.save(owner=self.request.user)
             return Response(serializer, status=status.HTTP_201_CREATED)
+
+class CardListApi(generics.ListAPIView):
+    '''
+        Return list of users cards
+    '''
+    permission_classes = [IsAuthenticated,]
+    serializer_class = ListCardSerializer
+
+    def get_queryset(self):
+        return Card.objects.filter(owner = self.request.user)
+
 
