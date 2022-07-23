@@ -30,3 +30,12 @@ class ListCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
         fields = ("number", "token")
+
+class DetailCardSerializer(serializers.ModelSerializer):
+    '''
+        Return extra detail about a card
+    '''
+    owner = serializers.CharField(source="owner.email")
+    class Meta:
+        model = Card
+        fields = ("owner", "number", "cvv", "balance", "date_created", "token")
