@@ -11,5 +11,6 @@ urlpatterns = [
     path("create-card/", views.CardCreateApi.as_view(), name="create-card"),
     path("card-detail/<str:token>/", views.CardDetailApi.as_view(), name="detail-cart"),
 
+    path("card-change-password/<str:token>/", views.CardPasswordUpdate.as_view(), name="password-change-cart"),
 ]
 

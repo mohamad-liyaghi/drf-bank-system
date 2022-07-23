@@ -39,3 +39,18 @@ class DetailCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
         fields = ("owner", "number", "cvv", "balance", "date_created", "token")
+
+
+class ChangePasswordCardSerializer(serializers.ModelSerializer):
+    '''
+        Change password of a card
+    '''
+    old_password = serializers.CharField(required=True, max_length=8)
+    new_password = serializers.CharField(required=True, max_length=8)
+    class Meta:
+        model = Card
+        fields = ("old_password", "new_password")
+
+
+
+
