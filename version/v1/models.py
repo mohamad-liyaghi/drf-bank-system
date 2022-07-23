@@ -1,7 +1,15 @@
 from django.db import models
-from django.contrib.auth.models import User
-from version.v1.managers import CardManager
+from django.contrib.auth.models import AbstractUser
+from version.v1.managers import CardManager, UserManager
 
+class User(AbstractUser):
+    username = None
+    full_name = models.CharField(max_length=70)
+    email = models.EmailField(unique=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ["full_name"]
+    objects = UserManager()
 
 class Card(models.Model):
     owner = models.ForeignKey(User,null=True, on_delete=models.CASCADE, related_name="cards")

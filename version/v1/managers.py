@@ -1,7 +1,36 @@
 from django.db import models
+from django.contrib.auth.models import BaseUserManager
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
 import random
+
+class UserManager(BaseUserManager):
+    '''
+        Manager for creating new user
+    '''
+    def create_user(self, full_name, email, password):
+
+        if not full_name:
+            raise ValueError("Users must have full name!")
+
+        if not email:
+            raise ValueError("Users must have Email")
+
+
+        user = self.model(
+            email= email, full_name= full_name
+        )
+        user.set_password(password)
+        user.save(using= self._db)
+        return user
+
+
+    def create_superuser(self, full_name, email, password):
+        user = self.create_user(full_name, email,  password)
+        user.is_superuser= True
+        user.is_staff= True
+        user.save(using=self._db)
+        return user
+
 
 class CardManager(models.Manager):
     '''
