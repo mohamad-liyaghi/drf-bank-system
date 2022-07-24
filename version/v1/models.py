@@ -24,3 +24,13 @@ class Card(models.Model):
 
     def __str__(self):
         return  str(self.number)
+
+class Transaction(models.Model):
+    code = models.CharField(max_length=13, unique=True)
+    from_card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="transactions")
+    to_card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    amount = models.PositiveIntegerField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return  self.code
