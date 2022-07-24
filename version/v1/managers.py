@@ -57,3 +57,54 @@ class CardManager(models.Manager):
 
         card.save()
         return card
+
+
+class TransactionManager(models.Manager):
+    '''
+        Override create function
+    '''
+
+    def create(self, card_model, user, from_card, cvv, password, to_card, amount):
+        # the card_model is not a good idea, this might be a bug, i have to fix it.
+
+        if not card_model:
+            raise ValueError("Model is required")
+
+        if not user:
+            raise ValueError('Transaction must have a user')
+
+        if not from_card:
+            raise ValueError("Transaction must have an origin ")
+
+        if not cvv:
+            raise ValueError("You must enter your cvv")
+
+        if not password:
+            raise ValueError("Password field is required")
+
+        if not to_card:
+            raise ValueError("Transaction must have a destination")
+
+        if not amount:
+            raise ValueError("You have to select amount of money to pay")
+
+        origin = get_object_or_404(card_model, owner=user, number=from_card ,cvv= cvv, password= password )
+        destination = get_object_or_404(card_model, number=to_card)
+
+        if origin.balance < int(amount):
+            raise ValueError("origin source doesnt have enough money")
+
+        origin.balance -= int(amount)
+        destination.balance += int(amount)
+        origin.save()
+        destination.save()
+
+        transaction = self.model(
+            code= random.randint(1, 9999999999999),
+            from_card= origin,
+            to_card= destination,
+            amount= amount
+        )
+
+        transaction.save()
+        return transaction

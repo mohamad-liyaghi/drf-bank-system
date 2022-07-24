@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from version.v1.managers import CardManager, UserManager
+from version.v1.managers import CardManager, UserManager, TransactionManager
 
 class User(AbstractUser):
     username = None
@@ -32,5 +32,7 @@ class Transaction(models.Model):
     amount = models.PositiveIntegerField()
     date = models.DateTimeField(auto_now_add=True)
 
+    objects= TransactionManager()
+
     def __str__(self):
-        return  self.code
+        return str(self.code)
