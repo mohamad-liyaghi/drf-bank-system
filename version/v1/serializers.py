@@ -62,8 +62,17 @@ class TransactionSerializer(serializers.ModelSerializer):
         model = Transaction
         fields = ('from_card', 'to_card', 'amount','cvv', 'password',)
 
+
 class TransactionListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = ("code", "amount", "date")
 
+
+class TransactionDetailSerializer(serializers.ModelSerializer):
+    from_card = serializers.CharField(source="from_card.number")
+    to_card = serializers.CharField(source="from_card.number")
+
+    class Meta:
+        model = Transaction
+        fields = ("code","from_card", "to_card" , "amount", "date")
