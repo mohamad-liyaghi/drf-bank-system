@@ -13,6 +13,7 @@ urlpatterns = [
 
     path("card-change-password/<str:token>/", views.CardPasswordUpdate.as_view(), name="cart-password-change"),
 
+    path("transaction/<str:c_number>/", views.TransactionListApi.as_view(), name= "transaction-history"),
     path("create-transaction/", views.CardTransactionApi.as_view(), name="create-transaction")
 ]
 

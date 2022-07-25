@@ -6,7 +6,7 @@ from rest_framework import generics
 from django.shortcuts import get_object_or_404
 from .serializers import (RegisterUserSerializer,
                           CreateCardSerializer, ListCardSerializer, DetailCardSerializer, ChangePasswordCardSerializer,
-                          TransactionSerializer)
+                          TransactionSerializer, TransactionListSerializer)
 from v1.models import Card, User, Transaction
 
 
@@ -102,3 +102,16 @@ class CardTransactionApi(APIView):
 
             return Response(ser_data.data, status=status.HTTP_201_CREATED)
         return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TransactionListApi(generics.ListAPIView):
+    '''
+        Show 10 latest transactions of a card (only available for owners)
+    '''
+    permission_classes = [IsAuthenticated,]
+    serializer_class = TransactionListSerializer
+
+    def get_queryset(self):
+        card = get_object_or_404(Card, owner=self.request.user, number= self.kwargs["c_number"])
+        object = card.transactions.all()[:10]
+        return object

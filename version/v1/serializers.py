@@ -54,10 +54,16 @@ class ChangePasswordCardSerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
 
     cvv = serializers.CharField(required=True)
-    password = serializers.CharField(required=True)
+    password = serializers.CharField(required=True, write_only=True)
     from_card = serializers.CharField(required=True)
     to_card = serializers.CharField(required=True)
 
     class Meta:
         model = Transaction
         fields = ('from_card', 'to_card', 'amount','cvv', 'password',)
+
+class TransactionListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = ("code", "amount", "date")
+
