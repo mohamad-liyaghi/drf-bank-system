@@ -4,8 +4,10 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
-from .serializers import RegisterUserSerializer, CreateCardSerializer, ListCardSerializer, DetailCardSerializer, ChangePasswordCardSerializer
-from v1.models import Card, User
+from .serializers import (RegisterUserSerializer,
+                          CreateCardSerializer, ListCardSerializer, DetailCardSerializer, ChangePasswordCardSerializer,
+                          TransactionSerializer)
+from v1.models import Card, User, Transaction
 
 
 class RegisterUserApi(APIView):
@@ -77,3 +79,26 @@ class CardPasswordUpdate(APIView):
                 object.save()
                 return Response({"success":"password changed"}, status=status.HTTP_201_CREATED)
             return Response({"failed" : "Your old password is wrong"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CardTransactionApi(APIView):
+    '''
+        Create a Transaction and transfer money to other card.
+    '''
+    permission_classes = [IsAuthenticated,]
+    serializer_class = TransactionSerializer
+
+    def post(self, request):
+        ser_data = self.serializer_class(data=request.data)
+        if ser_data.is_valid():
+            Transaction.objects.create(
+                card_model=Card, user=self.request.user,
+                from_card=ser_data.validated_data["from_card"],
+                cvv=ser_data.validated_data["cvv"],
+                password=ser_data.validated_data["password"],
+                to_card=ser_data.validated_data["to_card"],
+                amount=ser_data.validated_data["amount"]
+            )
+
+            return Response(ser_data.data, status=status.HTTP_201_CREATED)
+        return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -1,5 +1,5 @@
 from  rest_framework import  serializers
-from v1.models import Card, User
+from v1.models import Card, User, Transaction
 
 class RegisterUserSerializer(serializers.ModelSerializer):
     '''
@@ -51,5 +51,13 @@ class ChangePasswordCardSerializer(serializers.ModelSerializer):
         fields = ("old_password", "new_password")
 
 
+class TransactionSerializer(serializers.ModelSerializer):
 
+    cvv = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+    from_card = serializers.CharField(required=True)
+    to_card = serializers.CharField(required=True)
 
+    class Meta:
+        model = Transaction
+        fields = ('from_card', 'to_card', 'amount','cvv', 'password',)
