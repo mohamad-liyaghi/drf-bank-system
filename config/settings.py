@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     # local app
     'version.v1.apps.V1Config',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
