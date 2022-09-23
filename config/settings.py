@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'drf_spectacular',
 
     # local app
-    'version.v1.apps.V1Config',
     'core.apps.CoreConfig',
 ]
 
@@ -143,4 +142,4 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
 }
 
-AUTH_USER_MODEL = "v1.User"
+AUTH_USER_MODEL = "core.User"

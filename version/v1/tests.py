@@ -1,6 +1,6 @@
 from rest_framework.test import APITestCase, APIClient
 from django.urls import reverse
-from .models import Card, Transaction
+from core.models import Card, Transaction
 import json
 
 from v1.models import User

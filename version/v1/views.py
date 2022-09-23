@@ -8,7 +8,7 @@ from .serializers import (RegisterUserSerializer,
                           CreateCardSerializer, ListCardSerializer, DetailCardSerializer, ChangePasswordCardSerializer,
                           TransactionSerializer, TransactionListSerializer, TransactionDetailSerializer)
 
-from v1.models import Card, User, Transaction
+from core.models import Card, User, Transaction
 
 
 class RegisterUserApi(APIView):

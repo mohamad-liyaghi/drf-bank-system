@@ -1,5 +1,5 @@
 from  rest_framework import  serializers
-from v1.models import Card, User, Transaction
+from core.models import Card, User, Transaction
 
 class RegisterUserSerializer(serializers.ModelSerializer):
     '''
