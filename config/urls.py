@@ -23,6 +23,8 @@ urlpatterns = [
     path("v2/", include("version.v2.urls")),
 
     path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
+
 
     path('v1/doc-file/', SpectacularAPIView.as_view(), name='schema'),
     path('v1/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
