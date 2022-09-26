@@ -32,3 +32,24 @@ class CreateCardSerializer(serializers.ModelSerializer):
         user = self.context["user"]
 
         return Card.objects.create(owner=user, **validated_data)
+
+
+class CardDetailSerializer(serializers.ModelSerializer):
+    '''Card detail page'''
+
+    lookup_field = 'token'
+
+    extra_kwargs = {
+        'url': {'lookup_field': 'token'}
+    }
+
+    token = serializers.CharField(read_only=True)
+    number = serializers.CharField(read_only=True)
+    cvv = serializers.CharField(read_only=True)
+    date_created = serializers.CharField(read_only=True)
+    balance = serializers.CharField(read_only=True)
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = Card
+        fields = ["number", "cvv", "balance", "date_created", "token", "password"]

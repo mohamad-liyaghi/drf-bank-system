@@ -7,6 +7,6 @@ app_name = "v2"
 
 router = routers.DefaultRouter()
 
-router.register('task', views.CardViewSet, basename="card")
+router.register('card', views.CardViewSet, basename="card")
 
 urlpatterns = router.urls
