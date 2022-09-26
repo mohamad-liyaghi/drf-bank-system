@@ -1,5 +1,12 @@
 from django.urls import path
+from django.urls.conf import include
+from rest_framework_nested import routers
+from . import views
 
 app_name = "v2"
 
-urlpatterns = []
+router = routers.DefaultRouter()
+
+router.register('task', views.CardViewSet, basename="card")
+
+urlpatterns = router.urls
