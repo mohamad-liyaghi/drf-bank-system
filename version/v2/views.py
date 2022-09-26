@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from core.models import Card
-from v2.serializers import CardListSerializer
+from v2.serializers import CardListSerializer, CreateCardSerializer
 
 
 class CardViewSet(ModelViewSet):
@@ -18,4 +18,9 @@ class CardViewSet(ModelViewSet):
         if self.action == "list":
             return CardListSerializer
 
+        elif self.action == "create":
+            return CreateCardSerializer
+
+    def get_serializer_context(self):
+        return {"user" : self.request.user}
 
