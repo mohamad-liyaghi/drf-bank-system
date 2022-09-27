@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from core.models import Card, Transaction
-from v2.serializers import CardListSerializer, CreateCardSerializer, CardDetailSerializer, TransactionListSerializer
+from v2.serializers import (CardListSerializer, CreateCardSerializer, CardDetailSerializer,
+                            TransactionListSerializer, AddTransactionSerializer)
 
 
 class CardViewSet(ModelViewSet):
@@ -31,6 +32,9 @@ class CardViewSet(ModelViewSet):
         elif self.action == "get_card_transaction":
             return TransactionListSerializer
 
+        elif self.action == "add_transaction":
+            return AddTransactionSerializer
+
     def get_serializer_context(self):
         return {"user" : self.request.user}
 
@@ -45,4 +49,34 @@ class CardViewSet(ModelViewSet):
         serializer = TransactionListSerializer(transactions, many=True)
 
         return Response(serializer.data)
+
+    @action(detail=False, methods=['post', 'get'], url_path="add-transaction")
+    def add_transaction(self, request):
+        '''Add a new transaction in order to pay money'''
+
+        if request.method == "POST":
+            serializer = AddTransactionSerializer(data=request.data)
+
+            if serializer.is_valid():
+                vd = serializer.validated_data
+
+            try:
+                transaction = Transaction.objects.create(Card, user=self.request.user,
+                                           from_card=vd["origin"], cvv=vd["cvv"],
+                                           password=vd["password"], to_card=vd["destination"],
+                                           amount=vd["amount"])
+
+                serializer = TransactionListSerializer(transaction)
+                return Response(serializer.data)
+
+            except ValueError:
+                return Response("Sth went wrong, please try again later. you may not have enough money in your card.")
+
+            else:
+                return Response(serializer.error)
+
+        elif request.method == "GET":
+            return Response("Create a Transaction here")
+
+
 

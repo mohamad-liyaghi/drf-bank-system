@@ -66,3 +66,15 @@ class TransactionListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = ["code", "from_card", "to_card", "date", "amount"]
+
+
+class AddTransactionSerializer(serializers.ModelSerializer):
+    origin = serializers.CharField(required=True)
+    cvv = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+    destination = serializers.CharField(required=True)
+
+
+    class Meta:
+        model = Transaction
+        fields = [ "origin", "cvv", "password", "amount", "destination"]
