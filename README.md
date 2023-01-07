@@ -12,12 +12,12 @@ Futures:
 <h3>First clone the project</h3>
 
 ```
-$ git clone https://github.com/Ml06py/drf-bank-system.git
+$ git clone https://github.com/mohamad-liyaghi/drf-bank-system.git
 ```
 <h3>Cd to source code directory</h3>
 
 ```
-$ cd drf-bank-system 
+$ cd drf-bank-system
 ```
 
 <h3>Then run project with docker</h3>
